@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question index{% endblock %}
+
+{% block body %}
+    <h1>Question index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Question</th>
+                <th>Publication_date</th>
+                <th>Views</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+    <tr>
+        <td>{{ question.id }}</td>
+        <td>{{ question.title }}</td>
+        <td>{{ question.question }}</td>
+        <td>{{ question.publicationDate ? question.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
+        <td>{{ question.validated }}</td>
+        <td>
+            {% for tag in question.tags %}
+                {{ tag.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        </td>
+        <td>{{ question.views }}</td>
+        <td>
+            <a href="{{ path('app_question_show', {'id': question.id}) }}">show</a>
+            <a href="{{ path('app_question_edit', {'id': question.id}) }}">edit</a>
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="8">no records found</td>
+    </tr>
+{% endfor %}
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_question_new') }}">Create new</a>
+{% endblock %}

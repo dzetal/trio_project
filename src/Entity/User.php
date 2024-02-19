@@ -7,21 +7,24 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
-#[Entity]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 #[ORM\InheritanceType('JOINED')]
-#[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
-#[ORM\DiscriminatorMap(['user' => User::class, 'member' => Member::class, 'moderator' => Moderator::class, 'administrator' => Administrator::class])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\DiscriminatorColumn(name: 'userType', type: 'string')]
+#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[ORM\DiscriminatorMap(['user' => User::class, 'member' => Member::class, 'admin' => Administrator::class, 'moderator' => Moderator::class])]
+
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['complete-tag'])]
     protected ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['complete-tag'])]
     protected ?string $username = null;
 
     #[ORM\Column]
@@ -34,9 +37,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    protected ?string $first_name = null;
+    protected ?string $firstName = null;
 
-    protected function getId(): ?int
+    #[ORM\Column(length: 255)]
+    protected ?string $lastName = null;
+
+    #[ORM\Column(length: 255)]
+    protected ?string $email = null;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -108,12 +117,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFirstName(): ?string
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
-    public function setFirstName(string $first_name): static
+    public function setFirstName(string $firstName): static
     {
-        $this->first_name = $first_name;
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }

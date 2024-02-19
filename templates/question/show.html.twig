@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question{% endblock %}
+
+{% block body %}
+    {% if question is defined %}
+    <h1>{{ question.title }}</h1>
+    <!-- other code -->
+{% else %}
+    <p>No question found.</p>
+{% endif %}
+
+    <p>{{ question.question }}</p>
+
+    {% if question.author %}
+        <p>Author: {{ question.author.username ?? 'Unknown' }}</p>
+    {% else %}
+        <p>Author: Unknown</p>
+    {% endif %}
+
+    <p>Number of Views: {{ question.views }}</p>
+
+    <p>Tags:
+    {% for tag in question.tags %}
+        {{ tag.name }}
+        {% if not loop.last %}, {% endif %}
+    {% endfor %}
+</p>
+
+    {# <p>Number of Answers: {{ question.answers.count }}</p> #}
+{# 
+    <p>Number of Votes: {{ question.votes }}</p> #}
+
+    <p>Publication Date: {{ question.publicationDate ? question.publicationDate|date('Y-m-d H:i:s') : '' }}</p>
+
+    <a href="{{ path('app_question_index') }}">Back to List</a>
+
+    <a href="{{ path('app_question_edit', {'id': question.id}) }}">Edit</a>
+
+    {{ include('question/_delete_form.html.twig') }}
+{% endblock %}

@@ -3,16 +3,18 @@
     "type": "project",
     "license": "proprietary",
     "description": "A minimal Symfony project recommended to create bare bones applications",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
+    "minimum-stability": "dev",
+"prefer-stable": true,
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/common": "^3.4",
         "doctrine/dbal": "3.7",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
+        "lexik/jwt-authentication-bundle": "^2.20",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.25",
         "symfony/asset": "7.0.*",
@@ -25,11 +27,13 @@
         "symfony/form": "7.0.*",
         "symfony/framework-bundle": "7.0.*",
         "symfony/http-client": "7.0.*",
+        "symfony/http-foundation": "7.0.*",
         "symfony/intl": "7.0.*",
         "symfony/mailer": "7.0.*",
         "symfony/mime": "7.0.*",
-        "symfony/monolog-bundle": "^3.0",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/notifier": "7.0.*",
+        "symfony/password-hasher": "7.0.*",
         "symfony/process": "7.0.*",
         "symfony/property-access": "7.0.*",
         "symfony/property-info": "7.0.*",
@@ -57,10 +61,10 @@
         "sort-packages": true
     },
     "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
+    "psr-4": {
+        "App\\": "src/"
+    }
+},
     "autoload-dev": {
         "psr-4": {
             "App\\Tests\\": "tests/"
@@ -103,9 +107,10 @@
         "symfony/browser-kit": "7.0.*",
         "symfony/css-selector": "7.0.*",
         "symfony/debug-bundle": "7.0.*",
-        "symfony/maker-bundle": "^1.0",
+        "symfony/maker-bundle": "^1.53",
         "symfony/phpunit-bridge": "^7.0",
         "symfony/stopwatch": "7.0.*",
         "symfony/web-profiler-bundle": "7.0.*"
     }
+    
 }
